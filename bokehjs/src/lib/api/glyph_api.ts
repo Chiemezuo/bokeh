@@ -12,7 +12,7 @@ import {
   AnnularWedge,
   Annulus,
   Arc,
-  Band,
+  BandGlyph as Band,
   Bezier,
   Block,
   Circle,
@@ -49,7 +49,7 @@ import {
   VSpan,
   VStrip,
   Wedge,
-  Whisker,
+  WhiskerGlyph as Whisker,
 } from "../models/glyphs"
 
 import type {Marker} from "../models/glyphs/marker"

@@ -102,7 +102,7 @@ Examples:
 
 """
 
-    @glyph_method(glyphs.Band)
+    @glyph_method(glyphs.BandGlyph)
     def band(self, *args: Any, **kwargs: Any) -> GlyphRenderer:
         """
 Examples:
@@ -1067,7 +1067,7 @@ Examples:
 
 """
 
-    @glyph_method(glyphs.Whisker)
+    @glyph_method(glyphs.WhiskerGlyph)
     def whisker(self, *args: Any, **kwargs: Any) -> GlyphRenderer:
         """
 Examples:
