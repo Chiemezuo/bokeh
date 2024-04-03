@@ -31,7 +31,7 @@ describe("default model resolver", () => {
       "Annulus",
       "AnotherModel",
       "Arc",
-      "Arrow",
+      "ArrowGlyph",
       "ArrowHead",
       "Ascii",
       "AutocompleteInput",
