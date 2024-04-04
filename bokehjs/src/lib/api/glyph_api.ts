@@ -23,6 +23,7 @@ import {
   HBar,
   HSpan,
   HStrip,
+  HTMLText,
   HexTile,
   Image,
   ImageRGBA,
@@ -171,6 +172,7 @@ export type HAreaStepArgs     = GlyphArgs<HAreaStep.Props>               & AuxFi
 export type HBarArgs          = GlyphArgs<HBar.Props>          & AuxLine & AuxFill & AuxHatch
 export type HSpanArgs         = GlyphArgs<HSpan.Props>         & AuxLine
 export type HStripArgs        = GlyphArgs<HStrip.Props>        & AuxLine & AuxFill & AuxHatch
+export type HTMLTextArgs      = GlyphArgs<HTMLText.Props>                                      & AuxText
 export type HexTileArgs       = GlyphArgs<HexTile.Props>       & AuxLine & AuxFill & AuxHatch
 export type ImageArgs         = GlyphArgs<Image.Props>
 export type ImageRGBAArgs     = GlyphArgs<ImageRGBA.Props>
@@ -370,6 +372,17 @@ export abstract class GlyphAPI {
     args?: Partial<HStripArgs>): TypedGlyphRenderer<HStrip>
   hstrip(...args: unknown[]): TypedGlyphRenderer<HStrip> {
     return this._glyph(HStrip, "hstrip", ["y0", "y1"], args)
+  }
+
+  html_text(): TypedGlyphRenderer<HTMLText>
+  html_text(args: Partial<HTMLTextArgs>): TypedGlyphRenderer<HTMLText>
+  html_text(
+    x: HTMLTextArgs["x"],
+    y: HTMLTextArgs["y"],
+    text: HTMLTextArgs["text"],
+    args?: Partial<HTMLTextArgs>): TypedGlyphRenderer<HTMLText>
+  html_text(...args: unknown[]): TypedGlyphRenderer<HTMLText> {
+    return this._glyph(HTMLText, "html_text", ["x", "y", "text"], args)
   }
 
   hex_tile(): TypedGlyphRenderer<HexTile>
