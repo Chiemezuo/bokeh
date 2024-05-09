@@ -88,15 +88,14 @@ export class WheelZoomToolView extends GestureToolView {
     const y_renderer_scales = new Set<Scale>()
 
     const {renderers} = this.model
-    const data_renderers = renderers != "auto" ? renderers : this.plot_view.model.data_renderers
+    const data_renderers = renderers != "auto" ? this.plot_view.views.collect(renderers): this.plot_view.data_renderers
 
-    for (const renderer of data_renderers) {
-      if (renderer.coordinates == null) {
+    for (const renderer_view of data_renderers) {
+      if (!renderer_view.is_subcoordinate_renderer) {
         continue
       }
 
-      const rv = this.plot_view.views.get_one(renderer)
-      const {x_scale, y_scale} = rv.coordinates
+      const {x_scale, y_scale} = renderer_view.coordinates
 
       if (x_scale instanceof CompositeScale) {
         if (x_frame_scales.has(x_scale.target_scale)) {

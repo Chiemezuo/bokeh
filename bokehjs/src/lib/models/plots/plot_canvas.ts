@@ -5,6 +5,7 @@ import {Canvas} from "../canvas/canvas"
 import type {Renderer} from "../renderers/renderer"
 import {RendererView} from "../renderers/renderer"
 import type {DataRenderer} from "../renderers/data_renderer"
+import {DataRendererView} from "../renderers/data_renderer"
 import type {Range} from "../ranges/range"
 import type {Tool} from "../tools/tool"
 import {ToolProxy} from "../tools/tool_proxy"
@@ -36,7 +37,7 @@ import type {Side, RenderLevel} from "core/enums"
 import type {View} from "core/view"
 import {Signal0} from "core/signaling"
 import {throttle} from "core/util/throttle"
-import {isBoolean, isArray, isString, isNotNull} from "core/util/types"
+import {isBoolean, isArray, isString, non_null} from "core/util/types"
 import {copy, reversed} from "core/util/array"
 import {flat_map} from "core/util/iterator"
 import type {Context2d} from "core/util/canvas"
@@ -125,14 +126,24 @@ export class PlotView extends LayoutDOMView implements Paintable {
 
   protected throttled_paint: () => void
 
-  computed_renderers: Renderer[] = []
+  private _computed_renderers: Renderer[] = []
 
   get computed_renderer_views(): RendererView[] {
-    return this.computed_renderers.map((r) => this.renderer_views.get(r)).filter(isNotNull) // TODO race condition again
+    return this._computed_renderers.map((r) => this.renderer_views.get(r)).filter(non_null) // TODO race condition again
+  }
+
+  get data_renderers(): DataRendererView[] {
+    return this
+      .computed_renderer_views
+      .filter((rv): rv is DataRendererView => rv instanceof DataRendererView)
+  }
+
+  get frame_renderers(): RendererView[] {
+    return this.computed_renderer_views.filter((rv) => rv.is_frame_renderer)
   }
 
   get auto_ranged_renderers(): (RendererView & AutoRanged)[] {
-    return this.computed_renderer_views.filter(is_auto_ranged)
+    return this.frame_renderers.filter(is_auto_ranged)
   }
 
   get base_font_size(): number | null {
@@ -662,7 +673,8 @@ export class PlotView extends LayoutDOMView implements Paintable {
 
   get_selection(): Map<DataRenderer, Selection> {
     const selection = new Map<DataRenderer, Selection>()
-    for (const renderer of this.model.data_renderers) {
+    for (const renderer_view of this.data_renderers) {
+      const renderer = renderer_view.model
       const {selected} = renderer.selection_manager.source
       selection.set(renderer, selected)
     }
@@ -670,7 +682,8 @@ export class PlotView extends LayoutDOMView implements Paintable {
   }
 
   update_selection(selections: Map<DataRenderer, Selection> | null): void {
-    for (const renderer of this.model.data_renderers) {
+    for (const renderer_view of this.data_renderers) {
+      const renderer = renderer_view.model
       const ds = renderer.selection_manager.source
       if (selections != null) {
         const selection = selections.get(renderer)
@@ -731,15 +744,15 @@ export class PlotView extends LayoutDOMView implements Paintable {
     const attribution = [
       ...this.model.attribution,
       ...this.computed_renderer_views.map((rv) => rv.attribution),
-    ].filter(isNotNull)
+    ].filter(non_null)
     const elements = attribution.map((attrib) => isString(attrib) ? new Div({children: [attrib]}) : attrib)
     this._attribution.elements = elements
     // TODO this._attribution.title = contents_el.textContent!.replace(/\s*\n\s*/g, " ")
   }
 
   protected async _build_renderers(): Promise<BuildResult<Renderer>> {
-    this.computed_renderers = [...this._compute_renderers()]
-    const result = await build_views(this.renderer_views, this.computed_renderers, {parent: this})
+    this._computed_renderers = [...this._compute_renderers()]
+    const result = await build_views(this.renderer_views, this._computed_renderers, {parent: this})
     this._update_attribution()
     return result
   }
