@@ -1,0 +1,13 @@
+.. _release-3-4-3:
+
+3.4.3
+=====
+
+Bokeh version ``3.4.3`` (July 2024) is a patch release that fixes a number of
+minor bugs/regressions and docs issues.
+
+Changes
+-------
+
+* Fixed performance regression related to inherited image data in ``Image``-like glyphs (:bokeh-pull:`13952`)
+* Fixed spurious warning about unknown bokeh version in the documentation (:bokeh-pull:`13949`)
