@@ -380,3 +380,11 @@ task("test:build", ["test:build:defaults", "test:build:unit", "test:build:integr
 
 task("test:lib", ["test:unit", "test:integration"])
 task("test", ["test:codebase", "test:defaults", "test:lib"])
+
+task("test:compile:docs_examples_accessibility", async () => compile("docs_examples_accessibility", {auto_index: true}))
+const build_docs_examples_accessibility = task("test:build:docs_examples_accessibility", [passthrough("test:compile:docs_examples_accessibility")], async () => await bundle("docs_examples_accessibility"))
+
+task2("test:docs_examples_accessibility", [start, build_docs_examples_accessibility], async ([devtools_port, server_port]) => {
+  await devtools(devtools_port, server_port, "docs_examples_accessibility")
+  return success(undefined)
+})

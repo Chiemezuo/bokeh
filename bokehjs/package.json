@@ -40,8 +40,10 @@
   "main": "build/js/lib/bokeh.js",
   "types": "build/js/types/bokeh.d.ts",
   "dependencies": {
+    "@axe-core/playwright": "^4.9.1",
     "@bokeh/numbro": "^1.6.2",
     "@bokeh/slickgrid": "~2.4.4103",
+    "@playwright/test": "^1.45.3",
     "@types/geojson": "^7946.0.13",
     "@types/google.maps": "^3.55.5",
     "@types/proj4": "^2.5.5",
