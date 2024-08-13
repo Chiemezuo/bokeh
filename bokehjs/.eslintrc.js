@@ -12,6 +12,7 @@ module.exports = {
       "./test/docs_examples_accessibility/tsconfig.json",
       "./test/codebase/tsconfig.json",
       "./test/devtools/tsconfig.json",
+      "./test/playwright/tsconfig.json",
       "./examples/tsconfig.json",
     ],
     tsconfigRootDir: __dirname,

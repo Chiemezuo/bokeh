@@ -9,7 +9,7 @@
     "strictNullChecks": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
+    "strictPropertyInitialization": false,
     "useUnknownInCatchVariables": true,
     "alwaysStrict": true,
     "noErrorTruncation": true,
@@ -19,6 +19,8 @@
     "declarationMap": true,
     "importHelpers": true,
     "experimentalDecorators": true,
+    "jsx": "react",
+    "jsxFactory": "DOM.createSVGElement",
     "module": "ES2022",
     "moduleResolution": "node",
     "isolatedModules": true,
@@ -28,10 +30,10 @@
     "skipLibCheck": true,
     "target": "ES2022",
     "lib": ["esnext", "dom", "dom.iterable"],
-    "types": ["node"],
+    "types": [],
     "baseUrl": ".",
     "paths": {
-      "@bokehjs/*": ["../../build/js/lib/*"]
+      "@bokehjs/*": ["../../build/js/lib/*"],
     },
     "outDir": "../../build/test"
   },
@@ -39,6 +41,7 @@
     "../framework.ts",
     "../interactive.ts",
     "../*.d.ts",
-    "./**/*.ts"
+    "./**/*.ts",
+    "./**/*.tsx"
   ]
 }
