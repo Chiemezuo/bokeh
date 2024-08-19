@@ -9,7 +9,6 @@ module.exports = {
       "./test/unit/tsconfig.json",
       "./test/defaults/tsconfig.json",
       "./test/integration/tsconfig.json",
-      "./test/docs_examples_accessibility/tsconfig.json",
       "./test/codebase/tsconfig.json",
       "./test/devtools/tsconfig.json",
       "./test/playwright/tsconfig.json",
