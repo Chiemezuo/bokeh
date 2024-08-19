@@ -66,10 +66,12 @@ function using_report(fn: (report: Report, req: express.Request, res: express.Re
 const unit = test("unit.js", "Unit Tests")
 const defaults = test("defaults.js", "Defaults Tests")
 const integration = test("integration.js", "Integration Tests")
+const playwright = test("playwright.js", "Playwright Tests")
 
 app.get("/unit", unit())
 app.get("/defaults", defaults())
 app.get("/integration", integration())
+app.get("/playwright", playwright())
 
 app.get("/unit/run", unit(true))
 app.get("/defaults/run", defaults(true))

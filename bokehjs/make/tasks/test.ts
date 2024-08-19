@@ -380,3 +380,11 @@ task("test:build", ["test:build:defaults", "test:build:unit", "test:build:integr
 
 task("test:lib", ["test:unit", "test:integration"])
 task("test", ["test:codebase", "test:defaults", "test:lib"])
+
+task("test:compile:playwright", async () => compile("playwright"))
+const build_playwright = task("test:build:playwright", [passthrough("test:compile:playwright")], async () => await bundle("playwright"))
+
+task2("test:playwright", [start, build_playwright], async ([devtools_port, server_port]) => {
+  await devtools(devtools_port, server_port, "playwright")
+  return success(undefined)
+})
